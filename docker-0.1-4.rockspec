@@ -1,9 +1,17 @@
+-- This file was automatically generated for the LuaDist project.
+
 package = "docker"
- version = "0.1-3"
- source = {
-    url = "https://git.deviant.guru/luarocks/docker/archive/v0.1-3.zip",
-    dir = "docker",
- }
+ version = "0.1-4"
+-- LuaDist source
+source = {
+  tag = "0.1-4",
+  url = "git://github.com/LuaDist-testing/docker.git"
+}
+-- Original source
+--  source = {
+--     url = "https://git.deviant.guru/luarocks/docker/archive/v0.1-3.zip",
+--     dir = "docker",
+--  }
  description = {
     summary = "Module for working with docker API",
     detailed = [[
