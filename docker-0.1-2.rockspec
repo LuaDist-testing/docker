@@ -1,15 +1,15 @@
 -- This file was automatically generated for the LuaDist project.
 
 package = "docker"
- version = "0.1-1"
+ version = "0.1-2"
 -- LuaDist source
 source = {
-  tag = "0.1-1",
+  tag = "0.1-2",
   url = "git://github.com/LuaDist-testing/docker.git"
 }
 -- Original source
 --  source = {
---     url = "https://git.deviant.guru/luarocks/docker/archive/v0.1-1.zip",
+--     url = "https://git.deviant.guru/luarocks/docker/archive/v0.1-2.zip",
 --     dir = "docker",
 --  }
  description = {
@@ -28,6 +28,6 @@ source = {
  build = {
     type = "builtin",
     modules = {
-       web = "src/docker.lua"
+       docker = "src/docker.lua"
     }
  }
