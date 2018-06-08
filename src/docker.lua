@@ -31,13 +31,17 @@ local API = { create = [[
 local list = function()
     
     local url = API_URL() .. '/containers/json'
-     
     local res, err = web.request(url, nil, { timeout = 90000 })
+
     if res then
-        return res
-    else
-        return nil, err
+        if res.status == 200 then
+            return res.body
+        else
+            err = res.body
+        end
     end
+    return nil, err
+
 end
 
 local create = function(containerArgsTable)
@@ -50,13 +54,15 @@ local create = function(containerArgsTable)
 
     local url = API_URL() .. '/containers/create'
     local res, err = web.request(url, { method = "POST", headers = { ['Content-Type'] = 'application/json' }, body = args }, { timeout = 90000 })
-    if res and res.status == 201 then
-        local response = json.decode(res.body)
-        return response.Id
-    else
-        if res then return nil, res end
-        return nil, err
-    end 
+    if res then
+        if res.status == 201 then
+            local response = json.decode(res.body)
+            return response.Id
+        else
+            err = res.body
+        end
+    end
+    return nil, err
 
 end
 
@@ -64,12 +70,15 @@ local start = function(id)
     
     local url = API_URL() .. '/containers/' .. id .. '/start'
     local res, err = web.request(url, { method = "POST" }, { timeout = 90000 })
-    if res and res.status == 204 then
-        return true
-    else
-        if res then return nil, res end
-        return nil, err
+
+    if res then
+        if res.status == 204 then
+            return true
+        else
+            err = res.body
+        end
     end
+    return nil, err
 
 end
 
@@ -77,37 +86,48 @@ local wait = function(id)
 
     local url = API_URL() .. '/containers/' .. id .. '/wait'
     local res, err = web.request(url, { method = "POST" }, { timeout = 90000 }) 
-    if res and res.status == 200 then
-        return true
-    else
-        if res then return nil, res end
-        return nil, err
+
+    if res then
+        if res.status == 200 then
+            return true
+        else
+            err = res.body
+        end
     end
+    return nil, err
+
 end
 
 local logs = function(id)
 
     local url = API_URL() .. '/containers/' .. id .. '/logs?stdout=1'
     local res, err = web.request(url, nil, { timeout = 90000 })
-    if res and res.status == 200 then
-        local body = string.gsub(res.body, '\1%z%z%z%z%z%z.','')
-        return body
-    else
-        if res then return nil, res end
-        return nil, err
+
+    if res then
+        if res.status == 200 then
+            local body = string.gsub(res.body, '\1%z%z%z%z%z%z.','')
+            return body
+        else
+            err = res.body
+        end
     end
+    return nil, err
+
 end
 
 local kill = function(id)
     
     local url = API_URL() .. '/containers/' .. id .. '?force=1'
     local res, err = web.request(url, { method = "DELETE" }, { timeout = 90000 })
-    if res and res.status == 204 then
-        return true
-    else
-        if res then return nil, res end
-        return nil, err
-    end 
+
+    if res then
+        if res.status == 204 then
+            return true
+        else
+            err = res.body
+        end
+    end
+    return nil, err
     
 end
 
